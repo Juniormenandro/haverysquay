@@ -36,6 +36,7 @@ const availableModelSlots = [
   "BMW",
   "MERCEDES",
   "AUDI",
+  "TESLA",
   "FORD",
   "VW",
   "TOYOTA",
@@ -44,9 +45,13 @@ const availableModelSlots = [
   "KIA",
   "NISSAN",
   "RENAULT",
+  "HONDA",
+  "JEEP",
+  "LAND ROUVER",
   "DARCIA",
   "PEUGEOT",
   "INSIGNIA",
+  "SKODA",
   "OTHERS"
 
 ];
@@ -59,6 +64,7 @@ const availableColorSlots = [
   "blue",
   "red",
   "green",
+  "gold",
   "yellow",
   "OTHERS"
 ];

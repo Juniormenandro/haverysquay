@@ -165,7 +165,7 @@ useEffect(() => {
                   disabled={!!loadingState[servico.id]}  
                   onClick={() => markAsDone(servico.id)}
                 >
-                  {loadingState[servico.id] ? 'Carregando...' : 'FINISH'}
+                  {loadingState[servico.id] ? 'loading...' : 'FINISH'}
                 </button>
               </div>
             </>   

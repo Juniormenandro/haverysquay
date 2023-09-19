@@ -97,14 +97,14 @@ export default function App() {
       </div>
       <Link className="mt-10 mr-2 -z-1" href="/netrevenue" >
           <button type={"button"}  >
-            <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
+            <h1 className=" p-2 border-4 bg-blue-500 font-semibold text-white rounded-2xl">
               NET-REVENUE
             </h1>
           </button>
         </Link>
         <Link className="mt-10 -z-1" href="/expenses" >
           <button type={"button"} >
-            <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
+            <h1 className=" p-2 text-white border-4 bg-blue-500 font-semibold rounded-2xl">
               EXPENSES
             </h1>
           </button>
@@ -144,8 +144,18 @@ export default function App() {
           </label>
         </div>
       </div>
-      <div className='m-5 '>
-          <h3 className='bg-white border-b-2 text-2xl rounded-t-xl pb-1'>Receita</h3>
+        <div className='m-5'>
+          <div>
+            <h4 className='bg-white font-semibold border-b-2 text-2xl text-blue-700 rounded-t-xl pt-2 pb-2'>Total revenue</h4>
+            {RevenueData?.totalMonthlyRevenue.map((item: { selectedPayment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; _sum: { rawPrice: number; }; }, index: React.Key | null | undefined) => (
+            <p className='bg-white pt-2 pb-2 text-xl border-b-2' key={index}>{item.selectedPayment}: {(item._sum.rawPrice / 100).toFixed(2)}€
+            </p>
+            ))}
+            <p className=' bg-white pb-3 rounded-b-xl'></p>
+          </div>
+        </div>
+        <div className='m-5 '>
+          <h3 className='bg-white font-semibold border-b-2 text-xl text-blue-700 rounded-t-xl pb-2 pt-2'>gross revenue breakdown</h3>
           <table className=' w-full' border={1}>
             <tbody className=''>
               {RevenueData?.monthlyRevenue.map((item: { selectedProductNane: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; selectedPayment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; _sum: { rawPrice: number; }; }, index: React.Key | null | undefined) => (
@@ -163,16 +173,6 @@ export default function App() {
             </tbody>
           </table>
           <p className=' bg-white  pb-3 rounded-b-xl'></p>
-        </div>
-        <div className='m-5'>
-          <div>
-            <h4 className='bg-white border-b-2 text-2xl rounded-t-xl pb-1'>Receita Total</h4>
-            {RevenueData?.totalMonthlyRevenue.map((item: { selectedPayment: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | React.PromiseLikeOfReactNode | null | undefined; _sum: { rawPrice: number; }; }, index: React.Key | null | undefined) => (
-            <p className='bg-white pb-2 border-b-2' key={index}>{item.selectedPayment}: {(item._sum.rawPrice / 100).toFixed(2)}€
-            </p>
-            ))}
-            <p className=' bg-white pb-3 rounded-b-xl'></p>
-          </div>
         </div>
     </div>
     <div className='h-96'></div>

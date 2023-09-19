@@ -8,7 +8,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from "next/navigation";
 import React from 'react';
-import Link from 'next/link';
 
 
 interface Servico {
@@ -177,29 +176,17 @@ export default function Page() {
   return (
     <>
     <Header />
-      <div className='text-2xl ml-3 mr-3 text-center bg-white p-2 font-semibold rounded-2xl'>
+    <div className="flex flex-col items-center min-h-screen  ">
+    <div className="w-full max-w-lg">
+
+      <div className='m-2 text-2xl text-center bg-white p-2 font-semibold rounded-2xl'>
         <h1>CUSTOMERS</h1>
       </div>
       <div className="flex justify-center text-center">
-        <Link className="mt-10 mr-2 -z-1" href="/oldClients" >
-          <button type={"button"}  >
-            <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-lg">
-              OLD-CUSTOMERS
-            </h1>
-          </button>
-        </Link>
-
-        <Link className="mt-10 -z-1" href="/booking" >
-          <button type={"button"} >
-            <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-lg">
-              BOOKING
-            </h1>
-          </button>
-        </Link>
         <div className="mt-10 ml-2 ">
-        <button className=' p-2 bg-white border-4 text-blue-500  border-blue-500 font-semibold rounded-lg'
+        <button className=' p-2 text-white bg-blue-500 font-semibold rounded-lg'
           onClick={() => setShowReturned(!showReturned)} type={'button'} >
-          {showReturned ? 'back. ' : 'Servicos'}
+          {showReturned ? 'back. ' : 'returning customers'}
         </button>
         </div>
       </div>
@@ -254,43 +241,27 @@ export default function Page() {
                     
                   </select>
                   <input 
-                    className=" w-20 text-blue-500 p-1 ml-2 mr-2 rounded-2xl border border-blue-500" 
+                    className=" pl-3 w-28 text-blue-500 p-1 ml-2 mr-2 rounded-2xl border border-blue-500" 
                     type="text" 
                     value={newPrice} 
                     onChange={(e) => setNewPrice(e.target.value)} 
                     placeholder="text..." 
                   />
                   <button 
-                    className=' border-4 p-1 border-blue-500  rounded-2xl m-1'
+                    className=' p-1 w-20 bg-blue-500 text-white rounded-2xl m-1'
                     disabled={!!loadingState[servico.id]} 
                     onClick={() => handleUpdate(servico.id) }>
-                      {loadingState[servico.id] ? 'Carregando...' : 'SEND'}
+                      {loadingState[servico.id] ? 'loading...' : 'SEND'}
                   </button>
                 </div>
               </React.Fragment>
             ))}         
-            {client.Booking && client.Booking.map(book => (
-              <div key={book.id} className='flex justify-center text-center bg-white border-t-8 border-blue-500 ml-3 mr-3 p-2 '>
-                <div className='flex-1 flex justify-center w-1/2 '>
-                  <div className=' w-full'>
-                    <h2 className=' text-[18px] border '>DAY: {book.selectedDate}</h2>
-                    <h2 className=' text-[18px] border '>WEEK: {book.selectedDayOfWeek}</h2>
-                    <h2 className=' text-[18px] border '>MONTH: {book.selectedMonth}</h2>
-                  </div> 
-                </div>
-                <div className='flex-1 flex justify-center'>
-                  <div className=' w-full'>
-                    <h2 className=' text-[18px] border  '>TIME: {book.selectedTime}</h2>
-                    <h2 className=' text-[18px] border  '>PRICE: {book.selectedProductDefaultPrice} €</h2>
-                    <h2 className=' text-[18px] border  '>YEAR: {book.selectedYear}</h2>
-                  </div>
-                </div>
-              </div>
-            ))}
           </li>
         ))}
       </ul>
-    </>
+    </div>
+  </div>
+  </>
   );
 }
 

@@ -13,7 +13,7 @@ interface servicos {
   clienteId: string;
   selectedColor: ReactNode;
   selectedTime: ReactNode;
-  selectedModel: ReactNode;
+  selectedModel: ReactNode; 
   selectedPayment: ReactNode;
   selectedProdutPrice: ReactNode;
   selectedProductNane: ReactNode;
@@ -21,9 +21,12 @@ interface servicos {
   carro: string;
   concluido: boolean;
   aguardandoPagamento: boolean;
+  data:any;
 }
 
 interface Cliente {
+  email: ReactNode;
+  endereco: ReactNode;
   id: string;
   nome: string;
   telefone: string;
@@ -147,15 +150,19 @@ useEffect(() => {
                 <div className='flex-1 justify-center w-1/2 '>
                   <div className=' w-full'>
                     <h2 className=' text-[17px] pb-[1px] border '>{servico.selectedProductNane}</h2>
-                    <h2 className=' text-[18px] border '>{servico.selectedProdutPrice}</h2>
                     <h2 className=' text-[18px] border '>{servico.selectedPayment}</h2>
+                    <h2 className=' text-[18px] border '>{servico.selectedProdutPrice}</h2>
                   </div>
                 </div>
                 <div className='flex-1 justify-center'>
                   <div className=' w-full'>
-                    <h2 className=' text-[18px] border '>{servico.selectedTime}</h2>
-                    <h2 className=' text-[18px] border '>{servico.carro}</h2>
-                    <h2 className=' text-[18px] border '>{servico.selectedColor}</h2>
+                  <h2 className=' text-[18px] border '>{client.email}</h2>
+                  <h2 className=' text-[18px] border '>{client.endereco}</h2>
+                      <h2 className=' text-[18px] border'>
+                        {servico.data && typeof servico.data === 'string' 
+                          ? new Date(servico.data).toLocaleDateString('pt-BR') 
+                          : 'Data não definida'}
+                      </h2>
                   </div>
                 </div>
               </div>

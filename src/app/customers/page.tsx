@@ -35,6 +35,8 @@ interface Booking {
 };
 
 interface Cliente {
+  email: string;
+  endereco: string;
   id: string;
   nome: string;
   telefone: string;
@@ -212,19 +214,19 @@ export default function Page() {
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
                       <h2 className=' text-[17px] pb-[1px] border'>{servico.selectedProductNane}</h2>
-                      <h2 className=' text-[18px] border'>{servico.rawPrice ? (Number(servico.rawPrice) / 100).toFixed(2) : "0.00"} €</h2>
                       <h2 className=' text-[18px] border'>{servico.selectedPayment}</h2>
+                      <h2 className=' text-[18px] border'>{servico.rawPrice ? (Number(servico.rawPrice) / 100).toFixed(2) : "0.00"} €</h2>
                     </div>
                   </div>
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
+                      <h2 className=' text-[18px] border '>{client.email}</h2>
+                      <h2 className=' text-[18px] border '>{client.endereco}</h2>
                       <h2 className=' text-[18px] border'>
                       {servico.data && typeof servico.data === 'string' 
                         ? new Date(servico.data).toLocaleDateString('pt-BR') 
                         : 'Data não definida'}
                       </h2>
-                      <h2 className=' text-[18px] border w-full'>{servico.carro}</h2>
-                      <h2 className=' text-[18px] border w-full'>{servico.selectedColor}</h2>
                     </div>
                   </div>
                 </div>

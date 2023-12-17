@@ -13,7 +13,9 @@ type StepButtonProps = {
   setBookingData: (data: BookingType) => void;
   handleBuyProduct: (id: string, updatedData: any) => Promise<void>;
   nome: string; 
-  telefone: string; 
+  telefone: string;
+  email: string;
+  endereco: string; 
   bookingData: BookingType;
   
 };
@@ -31,6 +33,8 @@ const StepButton: React.FC<StepButtonProps> = ({
   handleBuyProduct,
   nome,
   telefone, 
+  email,
+  endereco,
   bookingData,
   
 }) => {
@@ -40,6 +44,8 @@ const StepButton: React.FC<StepButtonProps> = ({
         ...bookingData,
         nome,
         telefone,
+        email,
+        endereco,
         step: bookingData.step + 1,
       });
     } else {
@@ -87,40 +93,6 @@ const StepButton: React.FC<StepButtonProps> = ({
           type="button"
           isLoading={false}
           disabled={!selectedPayment}
-          onClick={handleContinue}
-        >
-          Continue
-        </Button>
-      )}
-
-      {step === 3 && (
-        <Button
-          type="button"
-          isLoading={false}
-          disabled={!selectedTime}
-          onClick={handleContinue}
-        >
-          Continue
-        </Button>
-      )}
-
-      {step === 4 && (
-        <Button
-          type="button"
-          isLoading={false}
-          disabled={!selectedModel}
-          onClick={handleContinue}
-        >
-          Continue
-        </Button>
-      )}
-
-
-      {step === 5 && (
-        <Button
-          type="button"
-          isLoading={checkoutIsLoading}
-          disabled={!selectedColor}
           onClick={finishBooking}
         >
           Book

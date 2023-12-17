@@ -19,6 +19,8 @@ import Header from "./header";
 export type ProductType = {
   id: string;
   name: string;
+  email: string;
+  endereco: string;
   price: string;
   default_price: string;
   raw_price: 0;
@@ -30,6 +32,8 @@ const BookingPage: NextPage = () => {
   
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState(""); 
+  const [email, setEmail] = useState(""); 
+  const [endereco, setEndereco] = useState(""); 
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -115,9 +119,7 @@ return (
             {!bookingData.step && "Select your service:"}
             {bookingData.step === 1 && "Enter your name and phone number:"}
             {bookingData.step === 2 && "Select your payment:"}
-            {bookingData.step === 3 && "Select your time:"}
-            {bookingData.step === 4 && "Enter your car Model:"}
-            {bookingData.step === 5 && "Enter your car Color:"}
+   
           
             
           </label>
@@ -129,8 +131,16 @@ return (
               setBookingData={setBookingData}
               nome={nome}
               setNome={setNome}
+
               telefone={telefone}
               setTelefone={setTelefone}
+
+              email={email}
+              setEmail={setEmail}
+
+              endereco={endereco}
+              setEndereco={setEndereco}
+              
             />
           </div>
         </div>
@@ -138,16 +148,15 @@ return (
           step={bookingData.step}
           checkoutIsLoading={checkoutIsLoading}
           selectedProductId={bookingData.selectedProductId}
-          selectedTime={bookingData.selectedTime}
-          selectedModel={bookingData.selectedModel}
-          selectedColor={bookingData.selectedColor} 
+
           selectedPayment={bookingData.selectedPayment}
           setBookingData={setBookingData}
           handleBuyProduct={handleBuyProduct}
           nome={nome}
           telefone={telefone}
-          bookingData={bookingData}
-        />
+          email={email}
+          endereco={endereco}
+          bookingData={bookingData} selectedTime={""} selectedModel={""} selectedColor={""}        />
       </div>
     </div>
   </>

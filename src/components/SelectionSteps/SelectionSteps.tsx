@@ -26,9 +26,9 @@ const availableTimeSlots = [
 ];
 
 const availablePaymentSlots = [
-  "CASH",
-  "REVOLUT",
-  "ONLINE",
+  "dinheiro",
+  "cartão",
+  "boleto",
   
 ];
 
@@ -76,10 +76,18 @@ type SelectionStepsProps = {
   
   bookingData: BookingType;
   setBookingData: (newState: BookingType) => void;
+  
   nome: string;
   setNome: React.Dispatch<React.SetStateAction<string>>;
+  
   telefone: string;
   setTelefone: React.Dispatch<React.SetStateAction<string>>;
+  
+  email: string;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  
+  endereco: string;
+  setEndereco: React.Dispatch<React.SetStateAction<string>>;
 };
 
 type ServiceType = {
@@ -113,10 +121,19 @@ const SelectionSteps: React.FC<SelectionStepsProps> = ({
   data,
   bookingData,
   setBookingData,
+  
   nome,
   setNome,
+
   telefone,
   setTelefone,
+
+  email,
+  setEmail,
+
+  endereco,
+  setEndereco,
+
 }) => {
 
   let content: JSX.Element | JSX.Element[] | null = null;
@@ -152,6 +169,8 @@ const SelectionSteps: React.FC<SelectionStepsProps> = ({
           ...bookingData,
           nome,
           telefone,
+          email,
+          endereco
         });
       };
       content = (
@@ -186,6 +205,44 @@ const SelectionSteps: React.FC<SelectionStepsProps> = ({
             onChange={(e) => setTelefone(e.target.value)}
             placeholder="PHONE"
           />
+
+
+          <label className="block mb-2">
+              <input
+                key="email"
+                style={{
+                  width: '100%',
+                  padding: '5px',
+                  border: '1px solid #2F6B90',
+                  borderRadius: '10px',
+                  fontSize: '18px',
+                }}
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="EMAIL"
+              />
+            </label>
+
+            <label className="block mb-2">
+              <input
+                key="endereco"
+                style={{
+                  width: '100%',
+                  padding: '5px',
+                  border: '1px solid #2F6B90',
+                  borderRadius: '10px',
+                  fontSize: '18px',
+                }}
+                type="text"
+                value={endereco}
+                onChange={(e) => setEndereco(e.target.value)}
+                placeholder="ENDERECO"
+              />
+            </label>
+
+
+
         </form>
       );
       break;
@@ -204,51 +261,8 @@ const SelectionSteps: React.FC<SelectionStepsProps> = ({
         />
       ));
       break;
-    case 3:
-      content = availableTimeSlots.map((timeSlot) => (
-        <Selector
-          key={timeSlot}
-          item={timeSlot}
-          selectedItem={bookingData.selectedTime}
-          onClick={() =>
-            setBookingData({
-              ...bookingData,
-              selectedTime: timeSlot,
-            })
-          }
-        />
-      ));
-      break;
-    case 4:
-      content = availableModelSlots.map((ModelSlot) => (
-        <Selector
-          key={ModelSlot}
-          item={ModelSlot}
-          selectedItem={bookingData.selectedModel}
-          onClick={() =>
-            setBookingData({
-              ...bookingData,
-              selectedModel: ModelSlot,
-            })
-          }
-        />
-      ));
-      break;
-    case 5:
-      content = availableColorSlots.map((ColorSlot) => (
-        <Selector
-          key={ColorSlot}
-          item={ColorSlot}
-          selectedItem={bookingData.selectedColor}
-          onClick={() =>
-            setBookingData({
-              ...bookingData,
-              selectedColor: ColorSlot,
-            })
-          }
-        />
-      ));
-      break;
+   
+    
     default:
       break;
   }

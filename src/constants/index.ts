@@ -7,6 +7,8 @@ export const bookingDataInitialState = {
   step: 0,
   nome:"",
   telefone:"",
+  email:"",
+  endereco: "",
   selectedModel:"",
   selectedColor:"",
   selectedPayment:"",

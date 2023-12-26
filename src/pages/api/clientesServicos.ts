@@ -20,9 +20,7 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse) => {
       telefone,
       endereco,
       email,
-      selectedModel,
-      selectedColor,
-      selectedTime,
+     
       selectedProductDefaultPrice,
       rawPrice,
   

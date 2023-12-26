@@ -9,12 +9,11 @@ export const bookingDataInitialState = {
   telefone:"",
   email:"",
   endereco: "",
-  selectedModel:"",
-  selectedColor:"",
+
   selectedPayment:"",
-  selectedTime: "",
+  
   selectedProductDefaultPrice: "",
-  rawPrice: 0,
+  rawPrice:0,
   
 };
 

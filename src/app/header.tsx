@@ -12,10 +12,11 @@ return (
   <>
   <header className=" pt-16 pb-16  rounded-b-2xl  "
     style={{
-      backgroundImage: `url('/images/logo.jpg')`,
+      backgroundImage: `url('/images/logogyn.jpg')`,
       backgroundPosition: 'center', // Centraliza a imagem de fundo
       backgroundRepeat: 'no-repeat', // Previne a repetição da imagem
-      backgroundSize: '390px' // Faz a imagem cobrir toda a área disponível
+      backgroundSize: '490px', // Faz a imagem cobrir toda a área disponível
+
     }}>
     
   </header>
@@ -24,6 +25,6 @@ return (
     </nav>
 </>
 );
-};
+}; 
 
 export default Header;

@@ -6,10 +6,9 @@ type StepButtonProps = {
   step: number;
   checkoutIsLoading: boolean;
   selectedProductId: string;
-  selectedTime: string;
+  
   selectedPayment: string;
-  selectedModel:string;
-  selectedColor:string;
+ 
   setBookingData: (data: BookingType) => void;
   handleBuyProduct: (id: string, updatedData: any) => Promise<void>;
   nome: string; 
@@ -26,9 +25,6 @@ const StepButton: React.FC<StepButtonProps> = ({
   checkoutIsLoading,
   selectedProductId,
   selectedPayment,
-  selectedTime,
-  selectedModel,
-  selectedColor,
   setBookingData,
   handleBuyProduct,
   nome,

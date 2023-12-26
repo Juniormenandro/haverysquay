@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
  
 
 interface servicos {
+  rawPrice: any;
   clienteId: string;
   selectedColor: ReactNode;
   selectedTime: ReactNode;
@@ -146,26 +147,29 @@ useEffect(() => {
             </div>
             {client.servicos && client.servicos.map(servico => (
             <>
-              <div key={servico.id} className="flex bg-white ml-3 mr-3 p-2 text-center ">
-                <div className='flex-1 justify-center w-1/2 '>
-                  <div className=' w-full'>
-                    <h2 className=' text-[17px] pb-[1px] border '>{servico.selectedProductNane}</h2>
-                    <h2 className=' text-[18px] border '>{servico.selectedPayment}</h2>
-                    <h2 className=' text-[18px] border '>{servico.selectedProdutPrice}</h2>
+              <div key={servico.id} className="flex  text-center bg-white ml-3 mr-3 p-2 ">
+                  <div className='flex-1 flex justify-center w-1/2'>
+                    <div className=' w-full'>
+                      <h2 className=' text-[17px] pb-[1px] border'>{servico.selectedProductNane}</h2>
+                      <h2 className=' text-[18px] border'>{servico.selectedPayment}</h2>
+                    </div>
                   </div>
-                </div>
-                <div className='flex-1 justify-center'>
-                  <div className=' w-full'>
-                  <h2 className=' text-[18px] border '>{client.email}</h2>
-                  <h2 className=' text-[18px] border '>{client.endereco}</h2>
+                  <div className='flex-1 flex justify-center w-1/2'>
+                    <div className=' w-full'>
+                      <h2 className=' text-[18px] border'>€ {servico.rawPrice ? Math.floor(Number(servico.rawPrice) / 100) : "0"}</h2>
                       <h2 className=' text-[18px] border'>
                         {servico.data && typeof servico.data === 'string' 
                           ? new Date(servico.data).toLocaleDateString('pt-BR') 
                           : 'Data não definida'}
                       </h2>
+                    </div>
                   </div>
                 </div>
-              </div>
+
+                <div key={servico.id} className=" text-center bg-white ml-3 mr-3 p-2 ">
+                    <h2 className=' text-[18px] border '>{client.email}</h2>
+                    <h2 className=' text-[18px] border '>{client.endereco}</h2>
+                </div>
               <div className=' bg-white text-white text-center ml-3 mr-3 p-1 rounded-b-2xl '>
                 <button
                 className=' bg-blue-500 p-1 rounded-xl'

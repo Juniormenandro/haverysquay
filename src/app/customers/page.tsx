@@ -210,27 +210,32 @@ export default function Page() {
             
             {client.servicos && client.servicos.map(servico => (
               <React.Fragment key={servico.id}>
+
+
                 <div key={servico.id} className="flex  text-center bg-white ml-3 mr-3 p-2 ">
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
                       <h2 className=' text-[17px] pb-[1px] border'>{servico.selectedProductNane}</h2>
                       <h2 className=' text-[18px] border'>{servico.selectedPayment}</h2>
-                      <h2 className=' text-[18px] border'>{servico.rawPrice ? (Number(servico.rawPrice) / 100).toFixed(2) : "0.00"} €</h2>
                     </div>
                   </div>
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
-                      <h2 className=' text-[18px] border '>{client.email}</h2>
-                      <h2 className=' text-[18px] border '>{client.endereco}</h2>
+                      <h2 className=' text-[18px] border'>€ {servico.rawPrice ? Math.floor(Number(servico.rawPrice) / 100) : "0"}</h2>
                       <h2 className=' text-[18px] border'>
-                      {servico.data && typeof servico.data === 'string' 
-                        ? new Date(servico.data).toLocaleDateString('pt-BR') 
-                        : 'Data não definida'}
+                        {servico.data && typeof servico.data === 'string' 
+                          ? new Date(servico.data).toLocaleDateString('pt-BR') 
+                          : 'Data não definida'}
                       </h2>
                     </div>
                   </div>
                 </div>
 
+                <div key={servico.id} className=" text-center bg-white ml-3 mr-3 p-2 ">
+                    <h2 className=' text-[18px] border '>{client.email}</h2>
+                    <h2 className=' text-[18px] border '>{client.endereco}</h2>
+                </div>
+                
                 <div className='bg-white text-blue-500 text-center font-semibold ml-3 mr-3 rounded-b-2xl' >
                   <select 
                     value={selectedField}
@@ -239,7 +244,7 @@ export default function Page() {
                   >
                     <option value="rawPrice">Price</option>
                     <option value="selectedPayment">Payment</option>
-                    <option value="selectedColor">Color</option>
+                  
                     
                   </select>
                   <input 

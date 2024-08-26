@@ -1,41 +1,52 @@
-
-
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from '@prisma/client';
 import { BookingType } from "@/app/page";
-
-
 
 const prisma = new PrismaClient();
 
 const checkout = async (req: NextApiRequest, res: NextApiResponse) => {
   const { booking }: { booking: BookingType } = req.body;
-  
-
-    const {
-      selectedProductId,
-      selectedProductNane,
-      selectedProdutPrice,
-      nome,
-      telefone,
-      endereco,
-      email,
-     
-      selectedProductDefaultPrice,
-      rawPrice,
-  
-    } = booking;
-    const price = parseFloat(selectedProdutPrice.replace('€', '').trim()) * 100;
+  const {
+    selectedProductId,
+    selectedProductNane,
+    selectedProdutPrice,
+    nome,
+    telefone,
+    placa,
+    selectedTime,
+    selectedProductDefaultPrice,
+    rawPrice,
+  } = booking;
 
   try {
+   // console.log(booking, "dados");
 
+    let client = await prisma.clientes.findUnique({
+      where: { telefone }
+    });
 
-    const client = await prisma.clientes.upsert({
-        where: { telefone },
-        update: { nome, email, endereco },
-        create: { nome, telefone, email, endereco },
+    // Se cliente encontrado pelo telefone, atualizar a placa
+    if (client) {
+      client = await prisma.clientes.update({
+        where: { id: client.id },
+        data: { placa },
+      });
+    } 
+    // Se não, procurar pelo número da placa
+    else {
+      client = await prisma.clientes.findUnique({
+        where: { placa }
       });
 
+      // Se ainda não encontrou, criar um novo cliente
+      if (!client) {
+        client = await prisma.clientes.create({
+          data: { nome, telefone, placa },
+        });
+      }
+    }
+
+    // Criar um novo serviço
     const newService = await prisma.servicos.create({
       data: {
         cliente: { connect: { id: client.id } },
@@ -43,13 +54,15 @@ const checkout = async (req: NextApiRequest, res: NextApiResponse) => {
         concluido: false,
         data: new Date(),
         selectedPayment: booking.selectedPayment,
-        selectedProductId: booking.selectedProductId,
-        selectedProductNane: booking.selectedProductNane,
-        selectedProdutPrice: booking.selectedProdutPrice,
-        selectedProductDefaultPrice: booking.selectedProductDefaultPrice,
-        rawPrice: booking.rawPrice,
+        selectedProductId,
+        selectedProductNane,
+        selectedProdutPrice,
+        selectedTime,
+        selectedProductDefaultPrice,
+        rawPrice,
       },
     });
+
     return res.status(201).json({
       message: 'Reserva criada com sucesso!',
       service: newService

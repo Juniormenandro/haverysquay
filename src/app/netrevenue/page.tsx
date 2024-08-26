@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import { useRouter } from "next/navigation";
@@ -11,16 +10,14 @@ import { fetcher } from '@/utils/fetcher/fetcher';
 import Link from 'next/link';
 
 
-
 interface NetProfit {
-    revenue: number;
-    expense: number;
-    netProfit: number;
-  }
-  
-  interface netProfitData {
-    netProfit: NetProfit;
-  }
+  revenue: number;
+  expense: number;
+  netProfit: number;
+}
+interface netProfitData {
+  netProfit: NetProfit;
+}
   
 
 export default function NetRevenue() {
@@ -42,7 +39,7 @@ export default function NetRevenue() {
     const userToken = localStorage.getItem('token');
     if (!userToken) {
       alert('O usuário não está logado!');
-      router.push("/");
+      router.push("/login");
       return;
     }
     setToken(userToken);
@@ -90,14 +87,14 @@ export default function NetRevenue() {
       </div>
       <Link className="mt-10 mr-2 -z-1" href="/revenue" >
         <button type={"button"}  >
-         <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-3xl">
+         <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
             REVENUE
           </h1>
         </button>
       </Link>
       <Link className="mt-10 -z-1" href="/expenses" >
         <button type={"button"} >
-          <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-3xl">
+          <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
             EXPENSES
           </h1>
         </button>
@@ -139,13 +136,13 @@ export default function NetRevenue() {
       </div>
     </div>
         <div className='bg-white m-5 rounded-xl ' >
-            <h1 className= ' bg-white text-2xl border-b-2 text-blue-700 font-semibold rounded-t-xl pb-2 pt-3'>total balance</h1>
+            <h1 className= ' bg-white text-2xl border-b-2 rounded-t-xl pb-1'>total balance</h1>
             <div className='flex justify-center'>
                 { netProfitData && netProfitData.netProfit && (
                     <div>
-                        <p className='pb-2 pt-2 text-xl'>Revenue: {formatEuro(netProfitData.netProfit.revenue)}</p>
-                        <p className='pb-2 pt-2 text-xl'>Expense: {formatEuro(netProfitData.netProfit.expense)}</p>
-                        <p className='pb-2 pt-2 text-xl'>Net Profit: {formatEuro(netProfitData.netProfit.netProfit)}</p>
+                        <p>Revenue: {formatEuro(netProfitData.netProfit.revenue)}</p>
+                        <p>Expense: {formatEuro(netProfitData.netProfit.expense)}</p>
+                        <p>Net Profit: {formatEuro(netProfitData.netProfit.netProfit)}</p>
                     </div>
                 )}
             </div>

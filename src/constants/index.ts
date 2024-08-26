@@ -7,13 +7,11 @@ export const bookingDataInitialState = {
   step: 0,
   nome:"",
   telefone:"",
-  email:"",
-  endereco: "",
-
+  placa:"",
   selectedPayment:"",
-  
+  selectedTime: "",
   selectedProductDefaultPrice: "",
-  rawPrice:0,
+  rawPrice: 0,
   
 };
 

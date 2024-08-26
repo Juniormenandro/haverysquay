@@ -14,13 +14,11 @@ import { Toaster, toast } from "react-hot-toast";
 import useSWR from "swr";
 import Header from "./header";
 
-
+ 
 
 export type ProductType = {
   id: string;
   name: string;
-  email: string;
-  endereco: string;
   price: string;
   default_price: string;
   raw_price: 0;
@@ -32,19 +30,13 @@ const BookingPage: NextPage = () => {
   
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState(""); 
-  const [email, setEmail] = useState("");
-  const [rawPrice, setRawPrice] = useState<number>(0);
-  const [endereco, setEndereco] = useState(""); 
+  const [placa, setPlaca] = useState(""); 
   const [token, setToken] = useState<string | null>(null);
 
-
-  
-
-
   useEffect(() => {
+
     const userToken = localStorage.getItem('token');
     if (userToken) {
-      console.log("Token encontrado:", userToken);
       setToken(userToken);
     }
   }, []);
@@ -57,23 +49,25 @@ const BookingPage: NextPage = () => {
     }
   );
 
-  useEffect(() => {
-    setBookingData(prevData => ({
-      ...prevData,
-      rawPrice: rawPrice,
-    }));
-  }, [rawPrice]);
-  
-
   const [bookingData, setBookingData] = useLocalStorage(
     "booking_step",
     bookingDataInitialState as BookingType
   );
 
+  /*
   useEffect(() => {
     console.log("bookingData atualizado:", bookingData);
   }, [bookingData]);
-  
+  */
+
+
+  useEffect(() => {
+    setBookingData(prevData => ({
+      ...prevData,
+      placa:placa, nome:nome, telefone:telefone,
+    }));
+  }, [placa,nome,telefone]);
+
 
   const [checkoutIsLoading, setIsCheckoutLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
@@ -89,7 +83,6 @@ const BookingPage: NextPage = () => {
 
   const handleBuyProduct = async (id: string, updatedData: any): Promise<void> => {
     try {
-      console.log("Enviando dados para o backend:", bookingData);
       setIsCheckoutLoading(true);
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/clientesServicos`, {
         method: "POST",
@@ -108,7 +101,7 @@ const BookingPage: NextPage = () => {
     } catch (error: any) {
       setIsCheckoutLoading(false);
       alert(`An error occured`);
-      //console.log(error);
+      console.log(error);
     }
   };
 
@@ -131,13 +124,15 @@ return (
   <Header></Header>
     <div className="flex flex-col items-center min-h-screen p-10 bg-white ">
             <Toaster position="top-center" />
+
           <div className="w-full max-w-lg">
         <h2 className="mb-8 text-3xl text-center">Book Now!</h2>
         <div className="mb-4">
           <label className="block mb-2">
             {!bookingData.step && "Select your service:"}
-            {bookingData.step === 1 && "Enter your name and phone number:"}
-            {bookingData.step === 2 && "Select your payment:"}
+            {bookingData.step === 1 && "Select your payment:"}
+            {bookingData.step === 2 && "Select your time:"}
+            {bookingData.step === 3 && ""}
           </label>
           <div className="flex flex-col gap-4">
             <SelectionSteps
@@ -147,18 +142,10 @@ return (
               setBookingData={setBookingData}
               nome={nome}
               setNome={setNome}
-
               telefone={telefone}
               setTelefone={setTelefone}
-
-              email={email}
-              setEmail={setEmail}
-
-              endereco={endereco}
-              setEndereco={setEndereco} 
-              
-              rawPrice={rawPrice}
-              setRawPrice={setRawPrice}
+              placa={placa}
+              setPlaca={setPlaca}
             />
           </div>
         </div>
@@ -167,19 +154,18 @@ return (
           checkoutIsLoading={checkoutIsLoading}
           selectedProductId={bookingData.selectedProductId}
           selectedPayment={bookingData.selectedPayment}
+          selectedTime={bookingData.selectedTime}
+          nome={bookingData.nome}
+          telefone={bookingData.telefone}
+          placa={bookingData.placa}
+          bookingData={bookingData}
           setBookingData={setBookingData}
-          handleBuyProduct={handleBuyProduct}
-          nome={nome}
-          telefone={telefone}
-          email={email}
-          endereco={endereco}
-          bookingData={bookingData}    />
+          handleBuyProduct={handleBuyProduct} 
+         />
       </div>
     </div>
   </>
 );
-
-
 };
 
 export default BookingPage;

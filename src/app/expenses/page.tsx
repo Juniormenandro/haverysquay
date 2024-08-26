@@ -1,7 +1,6 @@
 
 "use client";
 import React, { Key, useEffect, useState } from 'react';
-
 import useSWR, { mutate } from 'swr';
 import { useRouter } from "next/navigation";
 import Header from '../header';
@@ -29,12 +28,9 @@ interface RevenueData {
 }
 
 
-  
 export default function App() {
-
   const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
-  
   const [startDate, setStartDate] = useState(() => {
     const start = new Date();
     start.setHours(0, 0, 0, 0);
@@ -46,23 +42,22 @@ export default function App() {
     return end;
   });
   
-  
-    useEffect(() => {
-      const userToken = localStorage.getItem('token');
-      if (!userToken) {
-        alert('O usuário não está logado!');
-        router.push("/");
-        return;
-      }
-      setToken(userToken);
-    }, [router]);
+  useEffect(() => {
+    const userToken = localStorage.getItem('token');
+    if (!userToken) {
+      alert('O usuário não está logado!');
+      router.push("/");
+      return;
+    }
+    setToken(userToken);
+  }, [router]);
 
 
   const fetchURL = token ? `${process.env.NEXT_PUBLIC_API_URL}/api/expenses?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}` : null;  
   const { data: RevenueData, error: isError } = useSWR<RevenueData>(fetchURL ? [fetchURL, token] : null, fetcher, {
     revalidateOnFocus: false,
   });
-  
+  //console.log(RevenueData)
   const isLoading = !RevenueData && !isError;
   
   const [isStartDatePickerFocused, setIsStartDatePickerFocused] = React.useState(false);
@@ -99,15 +94,15 @@ export default function App() {
       </div>
       <Link className="mt-10 mr-4 -z-1" href="/netrevenue" >
           <button type={"button"}  >
-          <h1 className=" p-2 border-4 bg-blue-500 font-semibold text-white rounded-2xl">
+            <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
              NET-REVENUE
             </h1>
           </button>
         </Link>
-        <Link className="mt-10 -z-1" href="/revenue" >
+        <Link className="mt-10 -z-1" href="/expenses" >
           <button type={"button"} >
-          <h1 className=" p-2 border-4 bg-blue-500 font-semibold text-white rounded-2xl">
-            REVENUE
+          <h1 className=" p-2 bg-white border-4 border-blue-500 font-semibold text-blue-500 rounded-xl">
+              EXPENSES
             </h1>
           </button>
         </Link>
@@ -149,14 +144,14 @@ export default function App() {
     </div>
       <div className='m-5'>
         <div>
-          <h4 className='bg-white border-b-2 text-2xl text-blue-700 font-semibold rounded-t-xl pt-2 pb-2'>Total Expenses</h4>
-            <p className='bg-white pt-2 pb-2 text-xl rounded-b-xl'>
+          <h4 className='bg-white border-b-2 text-2xl rounded-t-xl pb-1'>Total Expenses</h4>
+            <p className='bg-white pb-3 rounded-b-xl'>
               {formatEuro(RevenueData?.totalRevenue?._sum?.preco ?? null)}
             </p>
         </div>
       </div>    
       <div className='m-5 '>
-        <h3 className='bg-white border-b-2 text-2xl text-blue-700 font-semibold rounded-t-xl pt-2 pb-2'>expense breakdown</h3>
+        <h3 className='bg-white border-b-2 text-2xl rounded-t-xl pb-1'>EXPENSES</h3>
         <table className=' w-full' border={1}>
           <tbody>
             {RevenueData?.detailedData && RevenueData.detailedData.map((item) => (
@@ -190,4 +185,3 @@ export default function App() {
   
   );
 }
-

@@ -45,7 +45,7 @@ const adminHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         updatedAt: "desc",
       }
     });
- console.log(clientes)
+
     // If the "returned" parameter is present and is "true", apply the filter.
     if (req.query.returned && req.query.returned === 'true') {
       clientes = clientes.filter(cliente => 

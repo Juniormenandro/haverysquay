@@ -15,7 +15,7 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { password, name, email, surname}: UserInterface = req.body;
+      const { password, name, email, surname }: UserInterface = req.body;
 
       // Checking if data was provided
       if (!password) {

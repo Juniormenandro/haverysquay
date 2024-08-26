@@ -22,7 +22,6 @@ interface Servico {
   aguardandoPagamento: boolean;
   data:any;
 };
-
 interface Booking {
   id: string;
   selectedDayOfWeek: React.ReactNode;
@@ -31,12 +30,9 @@ interface Booking {
   selectedYear: React.ReactNode;
   selectedTime: React.ReactNode;
   selectedProductDefaultPrice: React.ReactNode;
-
 };
-
 interface Cliente {
-  email: string;
-  endereco: string;
+  placa: string;
   id: string;
   nome: string;
   telefone: string;
@@ -45,7 +41,6 @@ interface Cliente {
 };
   
 export default function Page() {
-  
   const [token, setToken] = useState<string | null>(null);
   const [loadingState, setLoadingState] = useState<Record<string, boolean>>({});
   const [newPrice, setNewPrice] = useState<string>('');
@@ -58,13 +53,13 @@ export default function Page() {
   
   useEffect(() => {
     if (typeof window !== 'undefined') {
-        const userToken = localStorage.getItem('token');
-        if (!userToken) {
-            alert('O usuário não está logado!');
-            router.push("/login");
-            return;
-        }
-        setToken(userToken);
+      const userToken = localStorage.getItem('token');
+      if (!userToken) {
+          alert('O usuário não está logado!');
+          router.push("/login");
+          return;
+      }
+      setToken(userToken);
     }
   }, [router]);
 
@@ -99,20 +94,16 @@ export default function Page() {
   }, [token, periodoFiltragem, selectedDate, showReturned]);  // Add 'showReturned' as a dependency
 
 
-
   //const fetchURL = token ? `${process.env.NEXT_PUBLIC_API_URL}/api/customers` : null;
   // Lógica do SWR
   const { data: clientes, error: isError, isLoading } = useSWR<Cliente[]>(fetchURL ? [fetchURL, token] : null, fetcher, {
     revalidateOnFocus: false,
   });
 
-
   if (!fetchURL) {
     return null;  // Isso pode ser substituído por um fallback ou conteúdo padrão.
   }
-
-
-
+  
   async function updateServicePrice(id: string, field: string, value: any) {
     if (!value) return;
     try {
@@ -178,17 +169,14 @@ export default function Page() {
   return (
     <>
     <Header />
-    <div className="flex flex-col items-center min-h-screen  ">
-    <div className="w-full max-w-lg">
-
-      <div className='m-2 text-2xl text-center bg-white p-2 font-semibold rounded-2xl'>
+      <div className='text-2xl ml-3 mr-3 text-center bg-white p-2 font-semibold rounded-2xl'>
         <h1>CUSTOMERS</h1>
       </div>
       <div className="flex justify-center text-center">
         <div className="mt-10 ml-2 ">
-        <button className=' p-2 text-white bg-blue-500 font-semibold rounded-lg'
+        <button className=' p-2 bg-white border-4 text-blue-500  border-blue-500 font-semibold rounded-lg'
           onClick={() => setShowReturned(!showReturned)} type={'button'} >
-          {showReturned ? 'back. ' : 'returning customers'}
+          {showReturned ? 'back. ' : 'Servicos'}
         </button>
         </div>
       </div>
@@ -210,32 +198,29 @@ export default function Page() {
             
             {client.servicos && client.servicos.map(servico => (
               <React.Fragment key={servico.id}>
-
-
                 <div key={servico.id} className="flex  text-center bg-white ml-3 mr-3 p-2 ">
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
                       <h2 className=' text-[17px] pb-[1px] border'>{servico.selectedProductNane}</h2>
                       <h2 className=' text-[18px] border'>{servico.selectedPayment}</h2>
+                      <h2 className=' text-[18px] border'>{servico.rawPrice ? (Number(servico.rawPrice) / 100).toFixed(2) : "0.00"} €</h2>
                     </div>
                   </div>
                   <div className='flex-1 flex justify-center w-1/2'>
                     <div className=' w-full'>
-                      <h2 className=' text-[18px] border'>€ {servico.rawPrice ? Math.floor(Number(servico.rawPrice) / 100) : "0"}</h2>
+                    <h2 className=' text-[18px] border'>{client.placa}</h2>
+                    <h2 className='text-[18px] border'>
+                      {new Date(servico.data).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                    </h2>
                       <h2 className=' text-[18px] border'>
-                        {servico.data && typeof servico.data === 'string' 
-                          ? new Date(servico.data).toLocaleDateString('pt-BR') 
-                          : 'Data não definida'}
+                      {servico.data && typeof servico.data === 'string' 
+                        ? new Date(servico.data).toLocaleDateString('pt-BR') 
+                        : 'Data não definida'}
                       </h2>
                     </div>
                   </div>
                 </div>
 
-                <div key={servico.id} className=" text-center bg-white ml-3 mr-3 p-2 ">
-                    <h2 className=' text-[18px] border '>{client.email}</h2>
-                    <h2 className=' text-[18px] border '>{client.endereco}</h2>
-                </div>
-                
                 <div className='bg-white text-blue-500 text-center font-semibold ml-3 mr-3 rounded-b-2xl' >
                   <select 
                     value={selectedField}
@@ -244,31 +229,47 @@ export default function Page() {
                   >
                     <option value="rawPrice">Price</option>
                     <option value="selectedPayment">Payment</option>
-                  
+                    
                     
                   </select>
                   <input 
-                    className=" pl-3 w-28 text-blue-500 p-1 ml-2 mr-2 rounded-2xl border border-blue-500" 
+                    className=" w-20 text-blue-500 p-1 ml-2 mr-2 rounded-2xl border border-blue-500" 
                     type="text" 
                     value={newPrice} 
                     onChange={(e) => setNewPrice(e.target.value)} 
                     placeholder="text..." 
                   />
                   <button 
-                    className=' p-1 w-20 bg-blue-500 text-white rounded-2xl m-1'
+                    className=' border-4 p-1 border-blue-500  rounded-2xl m-1'
                     disabled={!!loadingState[servico.id]} 
                     onClick={() => handleUpdate(servico.id) }>
-                      {loadingState[servico.id] ? 'loading...' : 'SEND'}
+                      {loadingState[servico.id] ? 'Carregando...' : 'SEND'}
                   </button>
                 </div>
               </React.Fragment>
             ))}         
+            {client.Booking && client.Booking.map(book => (
+              <div key={book.id} className='flex justify-center text-center bg-white border-t-8 border-blue-500 ml-3 mr-3 p-2 '>
+                <div className='flex-1 flex justify-center w-1/2 '>
+                  <div className=' w-full'>
+                    <h2 className=' text-[18px] border '>DAY: {book.selectedDate}</h2>
+                    <h2 className=' text-[18px] border '>WEEK: {book.selectedDayOfWeek}</h2>
+                    <h2 className=' text-[18px] border '>MONTH: {book.selectedMonth}</h2>
+                  </div> 
+                </div>
+                <div className='flex-1 flex justify-center'>
+                  <div className=' w-full'>
+                    <h2 className=' text-[18px] border  '>TIME: {book.selectedTime}</h2>
+                    <h2 className=' text-[18px] border  '>PRICE: {book.selectedProductDefaultPrice} €</h2>
+                    <h2 className=' text-[18px] border  '>YEAR: {book.selectedYear}</h2>
+                  </div>
+                </div>
+              </div>
+            ))}
           </li>
         ))}
       </ul>
-    </div>
-  </div>
-  </>
+    </>
   );
 }
 

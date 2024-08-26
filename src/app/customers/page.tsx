@@ -2,8 +2,8 @@
 "use client";
 import { useState, useEffect, useMemo } from 'react';
 import Header from '../header';
-import Spinner from "@/components/Spinner/Spinner";
-import { fetcher } from '@/utils/fetcher/fetcher';
+import Spinner from '../../components/Spinner/Spinner';
+import { fetcher } from '../../utils/fetcher/fetcher';
 import 'react-datepicker/dist/react-datepicker.css';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from "next/navigation";

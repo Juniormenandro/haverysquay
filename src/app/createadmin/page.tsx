@@ -1,5 +1,5 @@
 "use client";
-import CreateAdminForm from "@/components/CreateAdmin/CreateAdmin";
+import CreateAdminForm from "../../components/CreateAdmin/CreateAdmin";
 
 const AdminCreationPage = () => {
   return (

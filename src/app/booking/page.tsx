@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Header from '../header';
-import Spinner from "@/components/Spinner/Spinner";
+import Spinner from '../../components/Spinner/Spinner';
 import useSWR, { mutate } from 'swr';
-import { fetcher } from '@/utils/fetcher/fetcher';
+import { fetcher } from '../../utils/fetcher/fetcher';
 import { Toaster, toast } from "react-hot-toast";
-
+ 
 
 
 interface Booking {
